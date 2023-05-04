@@ -1,5 +1,3 @@
-import Header  from "./header/Header";
-import Row from "./row/Row";
-import Hero from "./hero/hero";
-
-export {Header, Row, Hero};
+export {default as Header} from './header/Header';
+export {default as Row} from './row/row';
+export {default as Hero} from './hero/hero';

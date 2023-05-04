@@ -3,7 +3,7 @@ import { HeroProps } from './hero.props'
 import { IMovie } from 'src/interfaces/app.interfaces'
 import Image from 'next/image';
 import { image_base } from 'src/helpers/constants';
-import {TbPlaceholder} from 'react-icons/tb'
+import {TbPlayerPlay} from 'react-icons/tb'
 
 const Hero = ({trending}: HeroProps): JSX.Element => {
   const [movie, setMovie] = useState<IMovie>({} as IMovie);
@@ -27,7 +27,7 @@ const Hero = ({trending}: HeroProps): JSX.Element => {
       <p className='max-w-xs md:max-w-lg lg:max-w-2xl text-xs text-shadow-md md:text-lg lg:text-2xl'>{movie?.overview}</p>
 
       <div>
-        <button className='flex justify-center items-center space-x-2 bg-white/40 font-bold text-black w-[200px] h-[56px] rounded-full'><TbPlaceholder className='h-5 w-5md:h-8 w-8'/> Watch now</button>
+        <button className='flex justify-center items-center space-x-2 bg-white/40 font-bold text-black w-[200px] h-[56px] rounded-full'><TbPlayerPlay className='h-5 w-5md:h-8 w-8'/> Watch now</button>
       </div>
     </div>
   )
