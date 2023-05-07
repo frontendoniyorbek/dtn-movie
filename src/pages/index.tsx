@@ -1,12 +1,18 @@
 import { GetServerSideProps } from "next";
+import {useContext} from 'react'
 import Head from 'next/head'
 import { API_REQUEST } from "src/services/ap.services";
 import { IMovie } from "@/interfaces/app.interfaces";
 import Header from "@/components/header/Header";
 import Hero from "@/components/hero/hero";
 import Row from "@/components/row/row";
+import { AuthContext } from "@/context/auth.context";
 
 export default function Home({trending, topRated, tvTopRated , popular, documentary, comedy, history, family}: HomeProps):JSX.Element {
+
+  const {isLoading} = useContext(AuthContext);
+
+  if(isLoading) return <>{null}</>;
 
   return (
     <div className="relative min-h-screen">

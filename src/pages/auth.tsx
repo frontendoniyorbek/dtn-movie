@@ -1,26 +1,43 @@
 import TextField from "@/components/text-field/text-field";
 import Head from "next/head";
 import Image from "next/image";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Form, Formik } from "formik";
-import * as Yup from 'yup'
+import * as Yup from "yup";
+import { AuthContext } from "@/context/auth.context";
+import { useRouter } from "next/router";
 
 // https://rb.gy/n0no6
 
 const Auth = () => {
   const [auth, setAuth] = useState<"signup" | "signin">("signin");
+  const { error, isLoading, signIn, signUp, user } = useContext(AuthContext);
+
+  const router = useRouter();
+
+  if(user) router.push('/')
+  if(!isLoading) return <>Loading...</>
+
   const toggleAuth = (state: "signup" | "signin") => {
     setAuth(state);
   };
 
-  const onSubmit = (formData: {email:string; password:string})  => {
-    console.log(formData);
-  }
+  const onSubmit = (formData: { email: string; password: string }) => {
+    if(auth === 'signup') {
+      signUp(formData.email, formData.password);
+    } else {
+      signIn(formData.email, formData.password);
+    }
+  };
 
   const validation = Yup.object({
-    email:Yup.string().email('Enter valid email').required('Email is required'),
-    password:Yup.string().min(4, '4minimum character').required('Password is required')
-  })
+    email: Yup.string()
+      .email("Enter valid email")
+      .required("Email is required"),
+    password: Yup.string()
+      .min(6, "6minimum character")
+      .required("Password is required"),
+  });
 
   return (
     <div className="relative flex h-screen w-screen flex-col md:items-center md:justify-center bg-black md:bg-transparent">
@@ -47,11 +64,17 @@ const Auth = () => {
       />
 
       <div className="relative mt-24 space-y-8 rounded bg-black/75 py-10 px-6 md:mt-0 md:max-w-md md:px-14">
-        <h1 className="text-4xl font-semibold">
-          {auth === "signup" ? "Sign Up" : "Sign In"}
-        </h1>
-        <Formik initialValues={{email: '', password:''}} onSubmit={onSubmit} validationSchema={validation}>
+        <Formik
+          initialValues={{ email: "", password: "" }}
+          onSubmit={onSubmit}
+          validationSchema={validation}>
           <Form>
+            <h1 className="text-4xl font-semibold mb-5">
+              {auth === "signup" ? "Sign Up" : "Sign In"}
+            </h1>
+            {error && (
+              <p className="text-red-500 font-semibold text-center">{error}</p>
+            )}
             <div className="space-y-4">
               <TextField name="email" placeholder="Email" type={"text"} />
               <TextField
@@ -61,19 +84,11 @@ const Auth = () => {
               />
             </div>
 
-            {auth === "signin" ? (
-              <button
-                type="submit"
+            <button
+                type="submit" disabled={isLoading}
                 className="w-full bg-[#e10856] py-3 font-semibold mt-4">
-                Sign In
+                {isLoading ? 'Loading...' : auth === 'signin' ? 'Sign In' : 'Sign Up'}
               </button>
-            ) : (
-              <button
-                type="submit"
-                className="w-full bg-[#e10856] py-3 font-semibold mt-4">
-                Sign Up
-              </button>
-            )}
           </Form>
         </Formik>
 
