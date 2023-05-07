@@ -1,18 +1,28 @@
 import { GetServerSideProps } from "next";
-import {useContext} from 'react'
-import Head from 'next/head'
+import { useContext } from "react";
+import Head from "next/head";
 import { API_REQUEST } from "src/services/ap.services";
 import { IMovie } from "@/interfaces/app.interfaces";
 import Header from "@/components/header/Header";
 import Hero from "@/components/hero/hero";
 import Row from "@/components/row/row";
 import { AuthContext } from "@/context/auth.context";
+import { useInfoStore } from "@/store";
 
-export default function Home({trending, topRated, tvTopRated , popular, documentary, comedy, history, family}: HomeProps):JSX.Element {
+export default function Home({
+  trending,
+  topRated,
+  tvTopRated,
+  popular,
+  documentary,
+  comedy,
+  history,
+  family,
+}: HomeProps): JSX.Element {
+  const {setModal, modal} = useInfoStore();
+  const { isLoading } = useContext(AuthContext);
 
-  const {isLoading} = useContext(AuthContext);
-
-  if(isLoading) return <>{null}</>;
+  if (isLoading) return <>{null}</>;
 
   return (
     <div className="relative min-h-screen">
@@ -22,56 +32,58 @@ export default function Home({trending, topRated, tvTopRated , popular, document
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/log.svg" />
       </Head>
-      <Header/>
+      <Header />
       <main className="relative pl-4 pb-24 lg:space-y-24 lg:pl-16">
-        <Hero trending={trending}/>
+        <Hero trending={trending} />
         <section>
-          <Row title='Top Rated' movies={topRated}/>
-          <Row title='Tv Show' movies={tvTopRated} isBig={true}/>
-            <Row title='Popular' movies={popular} />
-            <Row title='Documentary' movies={documentary.reverse()}/>
-            <Row title='History' movies={history}/>
-            <Row title='Family' movies={family}/>
-            <Row title='Comedy' movies={comedy.reverse()}/>
+          <Row title="Top Rated" movies={topRated} />
+          <Row title="Tv Show" movies={tvTopRated} isBig={true} />
+          <Row title="Popular" movies={popular} />
+          <Row title="Documentary" movies={documentary.reverse()} />
+          <Row title="History" movies={history} />
+          <Row title="Family" movies={family} />
+          <Row title="Comedy" movies={comedy.reverse()} />
         </section>
       </main>
     </div>
-  )
+  );
 }
 
-export const getServerSideProps:GetServerSideProps<HomeProps> = async () => {
-	const trending = await fetch(API_REQUEST.trending).then(res => res.json());
-    const topRated = await fetch(API_REQUEST.top_rated).then(res => res.json());
-    const tvTopRated = await fetch(API_REQUEST.tv_top_rated).then(res => res.json());
-    const popular = await fetch(API_REQUEST.popular).then(res => res.json());
-    const documentary = await fetch(API_REQUEST.documentary).then(res => res.json());
-    const comedy = await fetch(API_REQUEST.comedy).then(res => res.json());
-    const family = await fetch(API_REQUEST.family).then(res => res.json());
-    const history = await fetch(API_REQUEST.history).then(res => res.json());
+export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
+  const trending = await fetch(API_REQUEST.trending).then((res) => res.json());
+  const topRated = await fetch(API_REQUEST.top_rated).then((res) => res.json());
+  const tvTopRated = await fetch(API_REQUEST.tv_top_rated).then((res) =>
+    res.json()
+  );
+  const popular = await fetch(API_REQUEST.popular).then((res) => res.json());
+  const documentary = await fetch(API_REQUEST.documentary).then((res) =>
+    res.json()
+  );
+  const comedy = await fetch(API_REQUEST.comedy).then((res) => res.json());
+  const family = await fetch(API_REQUEST.family).then((res) => res.json());
+  const history = await fetch(API_REQUEST.history).then((res) => res.json());
 
-
-
-    return {
-		props: {
-			trending: trending.results,
-			topRated: topRated.results,
-            tvTopRated: tvTopRated.results,
-            popular: popular.results,
-            documentary: documentary.results,
-            comedy: comedy.results,
-            family: family.results,
-            history: history.results,
-		},
-	};
+  return {
+    props: {
+      trending: trending.results,
+      topRated: topRated.results,
+      tvTopRated: tvTopRated.results,
+      popular: popular.results,
+      documentary: documentary.results,
+      comedy: comedy.results,
+      family: family.results,
+      history: history.results,
+    },
+  };
 };
 
 interface HomeProps {
-	trending: IMovie[];
-    topRated: IMovie[];
-    tvTopRated: IMovie[];
-    popular: IMovie[];
-    documentary: IMovie[];
-    comedy: IMovie[];
-    family: IMovie[];
-    history: IMovie[];
+  trending: IMovie[];
+  topRated: IMovie[];
+  tvTopRated: IMovie[];
+  popular: IMovie[];
+  documentary: IMovie[];
+  comedy: IMovie[];
+  family: IMovie[];
+  history: IMovie[];
 }
