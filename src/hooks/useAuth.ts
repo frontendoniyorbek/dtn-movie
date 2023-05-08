@@ -16,7 +16,7 @@ export const useAuth = () => {
 		await createUserWithEmailAndPassword(auth, email, password)
 			.then(res => {
 				setUser(res.user);
-				// router.push('/');
+				router.push('/');
 				setIsLoading(true);
 			})
 			.catch(error => setError(error.message))
