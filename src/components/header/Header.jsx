@@ -4,10 +4,11 @@ import {BiBellMinus} from "react-icons/bi"
 import {AiOutlineSearch, AiOutlineUser, AiOutlineLogout} from "react-icons/ai"
 import { useEffect, useState, useContext } from "react";
 import { AuthContext } from "@/context/auth.context";
+import { useAuth } from "@/hooks/useAuth";
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
-  const {logout} = useContext(AuthContext);
+  const {logout} = useAuth();
 
 
 	useEffect(() => {
