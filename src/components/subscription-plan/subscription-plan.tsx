@@ -7,6 +7,9 @@ import PlanCard from '../plan-card/plan-card';
 
 const SubscriptionPlan = ({ products }: SubscriptionPlanProps) => {
 	const { logout } = useAuth();
+	console.log(logout);
+
+
 
 	return (
 		<div className='min-h-screen'>

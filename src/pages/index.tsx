@@ -22,10 +22,8 @@ export default function Home({
   const { isLoading } = useContext(AuthContext);
   const subscription = false;
 
-  console.log(products);
-
-
   if (isLoading) return <>{null}</>;
+
   if(!subscription) return <SubscriptionPlan products={products} />
 
   return (

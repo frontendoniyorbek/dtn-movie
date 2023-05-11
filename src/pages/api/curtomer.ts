@@ -9,14 +9,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 	const { method } = req;
 
 	if (method === 'POST') {
-    try {
-      const {email} = req.body;
-      await stripe.customers.create({email});
-      return res.status(200).json({message: 'Success'});
-    } catch (error) {
-      const result = error as Error
-      return res.status(400).json({message: result.message});
-    }
+		try {
+			const { email } = req.body;
+			await stripe.customers.create({ email });
+			return res.status(200).json({ message: 'Success' });
+		} catch (error) {
+			const result = error as Error;
+			return res.status(400).json({ message: result.message });
+		}
 	} else {
 		return res.status(400).json({ message: 'Method not allowed' });
 	}
