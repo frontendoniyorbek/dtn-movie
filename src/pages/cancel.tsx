@@ -6,7 +6,7 @@ const Cancel = () => {
 	return (
 		<>
 			<div className='flex justify-start py-2 px-4'>
-				<Image src={'/logo.svg'} alt={'logo'} width={56} height={56} className={'cursor-pointer object-contain'} />
+				<Image src={'/log.svg'} alt={'logo'} width={56} height={56} className={'cursor-pointer object-contain'} />
 			</div>
 			<div className='h-[90vh] flex flex-col justify-center items-center'>
 				<BiErrorAlt className='w-20 h-20 text-red-500' />

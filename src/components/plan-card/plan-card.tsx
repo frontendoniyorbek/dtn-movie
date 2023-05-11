@@ -1,7 +1,6 @@
 import { RiVipCrown2Line } from "react-icons/ri";
 import { PlanCardProps } from "./plan-card.props"
 import { AiOutlineHourglass, AiOutlineVideoCameraAdd } from "react-icons/ai";
-import { useAuth } from "@/hooks/useAuth";
 import { useContext, useState } from "react";
 import { AuthContext } from "@/context/auth.context";
 
