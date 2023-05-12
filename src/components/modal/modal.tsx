@@ -1,18 +1,36 @@
 import MuiModal from '@mui/material/Modal';
 import { useInfoStore } from '@/store';
 import { FaPause, FaPlay, FaTimes } from 'react-icons/fa';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import  {Element}  from '@/interfaces/app.interfaces'
 import ReactPlayer from 'react-player';
 import { BiPlus } from 'react-icons/bi';
 import { BsVolumeMute, BsVolumeDown } from 'react-icons/bs';
-import { AiOutlineLike } from 'react-icons/ai';
+import { AiOutlineCloseCircle, AiOutlineLike } from 'react-icons/ai';
+import { AuthContext } from '@/context/auth.context';
+import { useRouter } from 'next/router';
+import { addDoc, collection } from 'firebase/firestore';
+import { db } from '@/firebase';
+import { Button, IconButton, Snackbar } from '@mui/material';
 
 const Modal = () => {
   const { modal, setModal, currentMovi } = useInfoStore();
 	const [trailer, setTrailer] = useState<string>('');
 	const [muted, setMuted] = useState<boolean>(true);
 	const [playing, setPlaying] = useState<boolean>(true);
+	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const { user } = useContext(AuthContext);
+	const router = useRouter();
+
+	const [open, setOpen] = useState(false);
+
+	const handleCloseS = (event: React.SyntheticEvent | Event, reason?: string) => {
+		if (reason === 'clickaway') {
+			return;
+		}
+
+		setOpen(false);
+	};
 
 	const base_url = process.env.NEXT_PUBLIC_API_DOMAIN as string;
   const api_key = process.env.NEXT_PUBLIC_API_KEY as string;
@@ -40,6 +58,31 @@ const Modal = () => {
 		// eslint-disable-next-line
 	}, [currentMovi]);
 
+	const addProductList = async () => {
+		setIsLoading(true);
+		try {
+			await addDoc(collection(db, 'list'), {
+				userId: user?.uid,
+				product: currentMovi,
+			});
+			setIsLoading(false);
+			router.replace(router.asPath);
+			setOpen(true);
+		} catch (e) {
+			console.error('Error adding document: ', e);
+			setIsLoading(false);
+		}
+	};
+
+	const action = (
+		<>
+			<IconButton size='small' aria-label='close' color='inherit' onClick={handleCloseS}>
+				<AiOutlineCloseCircle className='w-7 h-7' />
+			</IconButton>
+		</>
+	);
+
+
   return (
 		<MuiModal
 			open={modal}
@@ -47,6 +90,7 @@ const Modal = () => {
 			className={'fixed !top-7 left-0 right-0 z-50 mx-auto w-full max-w-5xl overflow-hidden overflow-y-scroll scrollbar-hide'}
 		>
 			<>
+				<Snackbar open={open} autoHideDuration={6000} onClose={handleCloseS} message='SUCCESS' action={action} />
 				<button
 					onClick={() => setModal(false)}
 					className='modalButton absolute right-5 top-5 !z-40 h-9 w-9 border-none bg-[#181818]'
@@ -63,7 +107,7 @@ const Modal = () => {
 						style={{ position: 'absolute', top: 0, left: 0 }}
 						muted={muted}
 					/>
-					<div className='absolute bottom-10 left-10 flex w-full items-center justify-between px-18'>
+					<div className='absolute bottom-10 left-10 right-10 flex w-full items-center justify-between px-18'>
 						<div className='flex space-x-2'>
 							<button
 								onClick={() => setPlaying(prev => !prev)}
@@ -81,16 +125,16 @@ const Modal = () => {
 									</>
 								)}
 							</button>
-							<button className='modalButton'>
-								<BiPlus className='w-7 h-7' />
+							<button className='modalButton' onClick={addProductList}>
+								{isLoading ? '...' : <BiPlus className='w-7 h-7' />}
 							</button>
 							<button className='modalButton'>
 								<AiOutlineLike className='w-7 h-7' />
 							</button>
-							<button className='modalButton' onClick={() => setMuted(prev => !prev)}>
-								{muted ? <BsVolumeMute className='w-7 h-7' /> : <BsVolumeDown className='w-7 h-7' />}
-							</button>
 						</div>
+						<button className='modalButton absolute right-12' onClick={() => setMuted(prev => !prev)}>
+							{muted ? <BsVolumeMute className='w-7 h-7' /> : <BsVolumeDown className='w-7 h-7' />}
+						</button>
 					</div>
 				</div>
 
