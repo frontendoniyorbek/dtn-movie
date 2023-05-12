@@ -1,4 +1,5 @@
 export interface IMovie {
+	map(arg0: (movie: any) => JSX.Element): import("react").ReactNode;
 	adult: boolean;
 	backdrop_path: string;
 	id: number;
