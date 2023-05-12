@@ -4,13 +4,14 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { AiOutlineUser } from 'react-icons/ai';
 import { MdOutlineSubscriptions } from 'react-icons/md';
-import { MembershipPlan } from 'src/components';
 import moment from 'moment';
 import { API_REQUEST } from '@/services/ap.services';
 import { Subscription } from '@/interfaces/app.interfaces';
+import { MembershipPlan } from '@/components';
+import { useAuth } from '@/hooks/useAuth';
 
 const Account = ({ subscription }: AccountProps) => {
-	console.log(subscription);
+	const {logout} = useAuth()
 
 	return (
 		<>
@@ -18,7 +19,7 @@ const Account = ({ subscription }: AccountProps) => {
 				<title>Account settings</title>
 				<meta name='description' content='Configure your account' />
 				<meta name='viewport' content='width=device-width, initial-scale=1' />
-				<link rel='icon' href='/log.svg' />
+				<link rel='icon' href='/logo.svg' />
 			</Head>
 			<header>
 				<div className='flex items-center space-x-2 md:space-x-10'>
@@ -54,7 +55,7 @@ const Account = ({ subscription }: AccountProps) => {
 
 				<div className='mt-6 grid grid-cols-1 gap-x-4 border px-4 py-4 md:grid-cols-4 md:bordder-x-0 md:border-t md:border-b-0 md:pb-0'>
 					<h4 className='text-lg text-[gray]'>Settings</h4>
-					<p className='col-span-3 cursor-pointer text-blue-500 hover:underline'>Sign out of all devices</p>
+					<p className='col-span-3 cursor-pointer text-blue-500 hover:underline' onClick={logout}>Sign out of all devices</p>
 				</div>
 			</main>
 		</>
@@ -72,6 +73,16 @@ export const getServerSideProps: GetServerSideProps<AccountProps> = async ({ req
 	}
 
 	const subscription = await fetch(`${API_REQUEST.subscription}/${user_id}`).then(res => res.json());
+	console.log(subscription);
+
+	if (!subscription.subscription.data.length) {
+		return {
+			redirect: {
+				destination: '/',
+				permanent: false,
+			},
+		};
+	}
 
 	return {
 		props: {
