@@ -1,6 +1,4 @@
 import Image from 'next/image';
-import { RiVipCrown2Line } from 'react-icons/ri';
-import { AiOutlineHourglass, AiOutlineVideoCameraAdd } from 'react-icons/ai';
 import PlanCard from '../plan-card/plan-card';
 import { useAuth } from '@/hooks/useAuth';
 import { SubscriptionPlanProps } from './subscription-plan-props';

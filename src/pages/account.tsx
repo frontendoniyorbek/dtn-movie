@@ -4,14 +4,14 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { AiOutlineUser } from 'react-icons/ai';
 import { MdOutlineSubscriptions } from 'react-icons/md';
+import { MembershipPlan } from 'src/components';
 import moment from 'moment';
+import { useAuth } from 'src/hooks/useAuth';
 import { API_REQUEST } from '@/services/ap.services';
 import { Subscription } from '@/interfaces/app.interfaces';
-import { MembershipPlan } from '@/components';
-import { useAuth } from '@/hooks/useAuth';
 
 const Account = ({ subscription }: AccountProps) => {
-	const {logout} = useAuth()
+	const { logout } = useAuth();
 
 	return (
 		<>
@@ -55,7 +55,9 @@ const Account = ({ subscription }: AccountProps) => {
 
 				<div className='mt-6 grid grid-cols-1 gap-x-4 border px-4 py-4 md:grid-cols-4 md:bordder-x-0 md:border-t md:border-b-0 md:pb-0'>
 					<h4 className='text-lg text-[gray]'>Settings</h4>
-					<p className='col-span-3 cursor-pointer text-blue-500 hover:underline' onClick={logout}>Sign out of all devices</p>
+					<p className='col-span-3 cursor-pointer text-blue-500 hover:underline' onClick={logout}>
+						Sign out of all devices
+					</p>
 				</div>
 			</main>
 		</>
