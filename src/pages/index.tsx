@@ -3,8 +3,9 @@ import Head from "next/head";
 import { API_REQUEST } from "src/services/ap.services";
 import { IMovie, MyList, Product } from "@/interfaces/app.interfaces";
 import { useInfoStore } from "@/store";
-import { SubscriptionPlan, Modal, Hero, Row , Header} from "@/components";
+import { SubscriptionPlan, Modal, Hero , Header} from "@/components";
 import { getList } from "@/helpers/lists";
+import Row from "@/components/row/row";
 
 export default function Home({
   trending,
