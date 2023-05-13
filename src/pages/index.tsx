@@ -4,9 +4,7 @@ import { API_REQUEST } from "src/services/ap.services";
 import { IMovie, MyList, Product } from "@/interfaces/app.interfaces";
 import { useInfoStore } from "@/store";
 import { SubscriptionPlan, Modal, Hero, Row , Header} from "@/components";
-import { useContext, useEffect } from "react";
 import { getList } from "@/helpers/lists";
-import { AuthContext } from "@/context/auth.context";
 
 export default function Home({
   trending,
