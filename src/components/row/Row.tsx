@@ -3,6 +3,7 @@ import { AiFillCaretRight, AiFillCaretLeft } from "react-icons/ai";
 import { useRef, useState } from "react";
 import Thumbnail from "../thumbnail/Thumbnail";
 
+
 const Row = ({ title, movies, isBig = false }: RowProps) => {
   const [moved, setMoved] = useState<boolean>(false);
   const carouselRef = useRef<HTMLDivElement>(null);
