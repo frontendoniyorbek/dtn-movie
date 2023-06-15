@@ -1,14 +1,14 @@
-import { initializeApp, getApp, getApps } from "firebase/app";
-import {getFirestore} from "firebase/firestore";
-import {getAuth} from "firebase/auth"
+import { initializeApp, getApp, getApps } from 'firebase/app';
+import { getFirestore } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBPpiocAOeuAjnT0iXw7VXSXIyw_m20evk",
-    authDomain: "dtn-movie-app.firebaseapp.com",
-    projectId: "dtn-movie-app",
-    storageBucket: "dtn-movie-app.appspot.com",
-    messagingSenderId: "289457900101",
-    appId: "1:289457900101:web:13e227d0a7f3db7d16712c"
+	apiKey: 'AIzaSyDUPi-KMx7SO8neO-yfQPX0FPxKYRgQDR0',
+	authDomain: 'movie-app-22be3.firebaseapp.com',
+	projectId: 'movie-app-22be3',
+	storageBucket: 'movie-app-22be3.appspot.com',
+	messagingSenderId: '827560384062',
+	appId: '1:827560384062:web:d3ec30b4aed1bbce21e36f',
 };
 
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();

@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { useAuth } from '@/hooks/useAuth';
@@ -37,12 +37,7 @@ const Auth = () => {
 				<link rel='icon' href='/log.svg' />
 			</Head>
 
-			<Image
-        src={`/bg.jpg`}
-        alt={"bg"}
-        fill
-        className="object-cover -z-10 !hidden sm:!inline opacity-60"
-      />
+			<Image src={`/bg.jpg`} alt={'bg'} fill className='object-cover -z-10 !hidden sm:!inline opacity-60' />
 
 			<Image
 				src={'/log.svg'}
@@ -88,14 +83,14 @@ const Auth = () => {
 
 export default Auth;
 
-export const getServerSideProps: GetServerSideProps = async ({req}) => {
-  const user_id = req.cookies.user_id;
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+	const user_id = req.cookies.user_id;
 
-  if(user_id) {
-    return {
-      redirect:{destination: '/auth', permanent:false},
-    };
-  }
+	if (user_id) {
+		return {
+			redirect: { destination: '/auth', permanent: false },
+		};
+	}
 
 	return {
 		props: {},
